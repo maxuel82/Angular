@@ -1,16 +1,32 @@
-<h1>Meu primeiro componente</h1>
-<ul>
+<h1 class="title animated jackInTheBox">Lista de Tarefas</h1>
+<ul class="animated flipInX" *ngIf="mode=='list'">
   <p class="text-center" *ngIf="tarefas.length==0"><small>Você não tem nenhuma tarefa hoje!</small></p>
-  <li *ngFor="let tarefa of tarefas"> {{tarefa.id}}. {{tarefa.descricaoTarefa}} - 
-    <button *ngIf="!tarefa.concluida" (click)="concluirTarefa(tarefa)">CONCLUIR</button> | 
-    <button *ngIf="tarefa.concluida" (click)="reabrirTarefa(tarefa)">REFAZER</button> |     
-    <button (click)="removerTarefa(tarefa)">REMOVER</button></li>
+  <li *ngFor="let tarefa of tarefas"> {{tarefa.id}}. {{tarefa.descricaoTarefa}}
+    <button *ngIf="!tarefa.concluida" (click)="concluirTarefa(tarefa)"><i
+        class="far fa-check-circle"></i>Concluir</button>
+    <button *ngIf="tarefa.concluida" (click)="reabrirTarefa(tarefa)"><i class="fas fa-check-circle"></i>Refazer</button>
+    <button (click)="removerTarefa(tarefa)"><i class="far fa-trash-alt"></i>Excluir</button>
+  </li>
 </ul>
 
-<form [formGroup]="form">
-  <fieldset>
-    <label>Tarefa: </label>
-    <input type="text" placeholder="Título da Tarefa" maxlength="60" formControlName="descricaoTarefa">
-    <button [disabled]="form.invalid" (click)="adicionarTarefa()">Salvar</button>
-  </fieldset>
-</form>
+<div id="modal" *ngIf="mode=='add'" class="animated flipInX">
+  <form [formGroup]="form">
+    <fieldset>
+      <label>Tarefa: </label>
+      <input type="text" placeholder="Título da Tarefa" maxlength="60" formControlName="descricaoTarefa">
+      <p class="text-center">
+        <button [disabled]="form.invalid" (click)="adicionarTarefa()" class="button"><i class="far fa-save"></i> Salvar</button>
+      </p>
+  
+    </fieldset>
+  </form>
+</div>
+
+<button class="add-button animated fadeInUp button" (click)="AlterarModoListaOuTarefa('add')" *ngIf="mode=='list'">
+  <i class="fas fa-plus-circle"></i>
+  Nova tarefe
+</button>
+<button class="add-button animated fadeInUp button" (click)="AlterarModoListaOuTarefa('list')" *ngIf="mode=='add'">
+  <i class="fas fa-times"></i>
+  Cancelar
+</button>

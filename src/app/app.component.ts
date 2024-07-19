@@ -16,6 +16,7 @@ export class AppComponent {
   //public title: string = 'Minhas tarefas';
   public tarefas: Tarefa[] = []; //=[] esta colocando a lista vazia.  se não fizer isso vai ficaar undefined.
   public form: FormGroup;
+  public mode: String = 'list';
   /**
    *
    */
@@ -37,12 +38,14 @@ export class AppComponent {
    this.CarregarDoLocalStorage();
   }
 
+  
   adicionarTarefa(){
     const descricaoTarefa = this.form.controls['descricaoTarefa'].value;
     const id = this.tarefas.length + 1;
     this.tarefas.push(new Tarefa(id, descricaoTarefa, false));
     this.salvarNoLocalStorage();
     this.form.reset();
+    this.AlterarModoListaOuTarefa('list');    
   }
 
   removerTarefa(tarefa : Tarefa){
@@ -77,5 +80,10 @@ export class AppComponent {
       this.tarefas = [];
     }
   }
+
+  AlterarModoListaOuTarefa(mode: string){
+    this.mode =mode;
+  }
 }
+
 
